@@ -1,7 +1,6 @@
 # Assignment 2
 
-Update Assignment one, by adding a level and world object
-
+Update Assignment one, by adding a level and world object which was introduced in Assignment 1 but not fully implemented.
 
 ## 
 - Pygame setup: window, clock, main loop
