@@ -18,6 +18,8 @@ class Colors:
     enemy: tuple[int, int, int] = (191, 97, 106)
     coin: tuple[int, int, int] = (235, 203, 139)
 
+    
+
 
 COLORS = Colors()
 
@@ -36,10 +38,14 @@ class Game:
 
         self.state: str = "title"  # title | playing | gameover
 
-        self.p_name = "COMP488-Mahran"
+        self.p_name = "Mahran"
         self.lives = 3 # lives
-        self.level = 3 # level: number of enemies FOR NOW
+        self.level = 1 # level: number of enemies FOR NOW
+        self.currLevelCoins = 0 
+        self.toNextLevCoins = 5
         self.pause_state = None # Lost_life_pause, player_pause
+
+        self.slowZoneColor = (80, 120, 200)
 
 
         self._reset_run()
@@ -63,6 +69,12 @@ class Game:
         # set player position, reuse in case player has remaining lives in Update method if collision happens
         self.player = pygame.Rect(self.w // 2 - 16, self.h // 2 - 16, 32, 32) 
         self.player_v = pygame.Vector2(0, 0)
+
+        zoneWidth, zoneHeight = 260,80
+        x = random.randrange(40, self.w - zoneWidth - 40)
+        y = random.randrange(80, self.h - zoneHeight - 40)
+
+        self.slowZone = pygame.Rect(x, y, zoneWidth,zoneHeight)
 
         self.score = 0
         self.alive_time = 0.0
@@ -103,6 +115,8 @@ class Game:
             elif event.key == pygame.K_RETURN: 
                 if self.state in ("title", "gameover"):
                     self.lives = 3
+                    self.level = 1
+                    self.currLevelCoins = 0
                     self._reset_run()
                     self.state = "playing"
 
@@ -129,6 +143,8 @@ class Game:
 
         # Movement: velocity integrates into position; dt makes it frame-rate independent.
         speed = 360.0
+        if self.player.colliderect(self.slowZone):
+            speed = 133.0
         self.player_v.x = input_x * speed
         self.player_v.y = input_y * speed
 
@@ -158,7 +174,13 @@ class Game:
         # Collision: player with coin.
         if self.player.colliderect(self.coin):
             self.score += 1
+            self.currLevelCoins+=1
             self.coin = self._spawn_coin()
+
+            if self.currLevelCoins >= self.toNextLevCoins:
+                self.level +=1
+                self.currLevelCoins = 0
+                self.next_level()
 
 
         # Collision: player with enemies.
@@ -194,7 +216,7 @@ class Game:
         panel = pygame.Rect(12, 12, 600, 40)
         pygame.draw.rect(self.screen, COLORS.panel, panel, border_radius=10)
 
-        text = f"Player: {self.p_name}    Score: {self.score}    High: {self.high_score}    Lives: {self.lives}"
+        text = f"Player: {self.p_name}    Score: {self.score}    High: {self.high_score}    Lives: {self.lives}   Level: {self.level}"
         surf = self.font.render(text, True, COLORS.text)
         self.screen.blit(surf, (panel.x + 12, panel.y + 12))
 
@@ -204,6 +226,7 @@ class Game:
             self.screen.blit(msg, (self.w/2 - msg.get_width()/2, self.h/2 - 50))
         self._draw_hud()
 
+        pygame.draw.rect(self.screen, self.slowZoneColor,self.slowZone, border_radius=12)
         pygame.draw.rect(self.screen, COLORS.coin, self.coin, border_radius=7)
         for r in self.enemy_rects:
             pygame.draw.rect(self.screen, COLORS.enemy, r, border_radius=8)
@@ -226,3 +249,13 @@ class Game:
         self.screen.blit(title, (self.w / 2 - title.get_width() / 2, 190))
         self.screen.blit(msg, (self.w / 2 - msg.get_width() / 2, 250))
         self.screen.blit(hint, (self.w / 2 - hint.get_width() / 2, 280))
+
+    def next_level(self):
+        newEnemy = pygame.Rect (random.randrange(40,self.w-40),random.randrange(80,self.h-40),36,36)
+        newVec = pygame.Vector2(random.choice([-1,1])*220,random.choice([-1,1])*180)
+
+        self.enemy_rects.append(newEnemy)
+        self.enemy_vs.append(newVec) 
+
+        self.slowZoneColor = (random.randint(50,255), random.randint(50,255), random.randint(50,255))
+        self.slowZone = pygame.Rect(random.randrange(80, self.w-320),random.randrange(140, self.h-120), 240, 80)
