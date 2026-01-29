@@ -33,7 +33,7 @@ Writes `data/save.json` (high score only). Delete it to reset.
 
 ## Decision‑Change
 - Slow Zone (new world object)
-* What it does: When the player steps into the slow zone, their movement speed drops.  
+*-* What it does: When the player steps into the slow zone, their movement speed drops.  
 * Why it matters: It makes the player think about their path so they don’t get stuck or caught by enemies while moving slower.  
 * What the player learns: It introduces a simple risk/reward idea, going through the zone might help with collecting coins, but it also makes escaping enemies harder.
 
