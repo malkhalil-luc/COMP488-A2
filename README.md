@@ -32,17 +32,17 @@ Writes `data/save.json` (high score only). Delete it to reset.
 
 
 ## Decision‑Change
-- Slow Zone (new world object)
+### Slow Zone (new world object)
 *-* What it does: When the player steps into the slow zone, their movement speed drops.  
 * Why it matters: It makes the player think about their path so they don’t get stuck or caught by enemies while moving slower.  
 * What the player learns: It introduces a simple risk/reward idea, going through the zone might help with collecting coins, but it also makes escaping enemies harder.
 
-- New Level 
+### New Level 
 * What it does: After the player collects a certain number of coins (5), the game levels up and spawns an extra enemy.  
 * Why it matters: It pushes the player to keep collecting coins while dealing with the game getting harder over time.  
 * What the player learns: Difficulty ramps up gradually, so players learn how to handle more enemies as levels increase.
 
-- Slow Zone location and Color Change per Level
+### Slow Zone location and Color Change per Level
 * What it does: The slow zone changes location and color every time the level increases.  
 * Why it matters: It gives a clear visual sign that the level changed or that the hazard is getting more serious.  
 * What the player learns: Players start recognizing the hazard by color and can predict how it will affect their movement.
