@@ -1,6 +1,6 @@
 # Assignment 2
 
-Update Assignment one, by adding a level and world object which was introduced in Assignment 1 but not fully implemented.
+Extends and update Assignment one, by adding a world object (slow zone) and levels which was introduced in Assignment 1 but not fully implemented.
 
 ## 
 - Pygame setup: window, clock, main loop
@@ -25,13 +25,13 @@ python main.py
 ## Save data
 Writes `data/save.json` (high score only). Delete it to reset.
 
-## Changes:
+## Changes summary
 - Added levels: Collecting 5 coins now increases the level and spawns an extra enemy.
 - Added slow zone object: A new world object slows the player down whenever they step inside it.
-- Adjusted movement inside slow zone: Player speed drops from 360 to 160 while in the zone to create a simple risk–reward tradeoff.
+- Adjusted movement inside slow zone: Player speed drops from 360 to 133 while in the zone to create a simple risk–reward tradeoff.
 
 
-## Decision‑Change
+## Decision Change
 ### Slow Zone (new world object)
 *-* What it does: When the player steps into the slow zone, their movement speed drops.  
 * Why it matters: It makes the player think about their path so they don’t get stuck or caught by enemies while moving slower.  
